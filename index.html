@@ -5,57 +5,104 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>نظام طلبات الكافيه</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
     <header class="main-header">
-      <h1><i class="fas fa-coffee"></i> نظام طلبات الكافيه</h1>
-      <p>اختر طلباتك وسنحضرها إليك</p>
+      <div class="header-content">
+        <h1><i class="fas fa-coffee"></i> نظام طلبات الكافيه</h1>
+        <p>اختر طلباتك وسنحضرها إليك في أسرع وقت</p>
+      </div>
     </header>
 
     <main>
-      <div id="table-input" class="card">
-        <h2><i class="fas fa-table"></i> ادخل رقم الطاولة</h2>
-        <div class="input-group">
-          <input type="number" id="tableNumber" placeholder="مثال: 5" min="1">
-          <button onclick="enterTable()" class="btn-primary">
+      <!-- شاشة إدخال رقم الطاولة -->
+      <div id="table-input" class="card active">
+        <div class="card-header">
+          <h2><i class="fas fa-table"></i> ادخل رقم الطاولة</h2>
+        </div>
+        <div class="card-body">
+          <div class="input-group">
+            <label for="tableNumber">رقم الطاولة:</label>
+            <input type="number" id="tableNumber" placeholder="مثال: 5" min="1" class="input-field">
+          </div>
+          <button onclick="enterTable()" class="btn-primary btn-block">
             <i class="fas fa-sign-in-alt"></i> بدء الطلب
           </button>
         </div>
       </div>
 
+      <!-- شاشة قائمة الطعام -->
       <div id="menu" class="card">
-        <div class="menu-header">
-          <h2><i class="fas fa-book-open"></i> قائمة المنيو</h2>
-          <button onclick="goBack()" class="btn-secondary">
-            <i class="fas fa-arrow-left"></i> رجوع
-          </button>
+        <div class="card-header">
+          <div class="header-flex">
+            <h2><i class="fas fa-book-open"></i> قائمة المنيو</h2>
+            <div class="table-number">
+              <i class="fas fa-table"></i> الطاولة: <span id="current-table"></span>
+            </div>
+          </div>
         </div>
-        <div id="menu-items" class="menu-grid"></div>
-        <button onclick="submitOrder()" class="btn-primary btn-large">
-          <i class="fas fa-paper-plane"></i> تأكيد الطلب
-        </button>
+        <div class="card-body">
+          <div id="menu-items" class="menu-grid"></div>
+          <div class="action-buttons">
+            <button onclick="goBack()" class="btn-secondary">
+              <i class="fas fa-arrow-left"></i> رجوع
+            </button>
+            <button onclick="submitOrder()" class="btn-primary">
+              <i class="fas fa-paper-plane"></i> تأكيد الطلب
+            </button>
+          </div>
+        </div>
       </div>
 
+      <!-- شاشة تأكيد الطلب -->
       <div id="order-summary" class="card">
-        <div class="success-icon">
-          <i class="fas fa-check-circle"></i>
+        <div class="card-body text-center">
+          <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h2>شكراً لطلبك!</h2>
+          <p class="success-message">تم استلام طلبك بنجاح وسيتم تحضيره قريباً</p>
+          
+          <div class="order-details">
+            <div class="detail-row">
+              <span class="detail-label">رقم الطاولة:</span>
+              <span id="summary-table" class="detail-value"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">وقت الطلب:</span>
+              <span id="order-time" class="detail-value"></span>
+            </div>
+            
+            <div class="order-items-title">
+              <i class="fas fa-clipboard-list"></i> تفاصيل الطلب:
+            </div>
+            <div id="summary-items" class="order-items-list"></div>
+            
+            <div class="order-total">
+              <span>المجموع:</span>
+              <span id="total-price">0.00</span> جنيه
+            </div>
+          </div>
+          
+          <button onclick="newOrder()" class="btn-primary btn-block">
+            <i class="fas fa-plus"></i> طلب جديد
+          </button>
         </div>
-        <h2>شكراً لطلبك!</h2>
-        <p>تم استلام طلبك بنجاح وسيتم تحضيره قريباً</p>
-        <div class="order-details">
-          <p><strong>رقم الطاولة:</strong> <span id="summary-table"></span></p>
-          <div id="summary-items"></div>
-        </div>
-        <button onclick="newOrder()" class="btn-primary">
-          <i class="fas fa-plus"></i> طلب جديد
-        </button>
       </div>
     </main>
 
     <footer>
-      <p>نظام طلبات الكافيه &copy; <span id="year"></span></p>
+      <div class="footer-content">
+        <p>نظام طلبات الكافيه &copy; <span id="year"></span></p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
     </footer>
   </div>
 
