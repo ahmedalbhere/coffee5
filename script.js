@@ -24,13 +24,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // عرض شاشة معينة وإخفاء الأخرى
 function showScreen(screenId) {
-  // إخفاء جميع الشاشات
-  document.getElementById('table-input').classList.remove('active');
-  document.getElementById('menu').classList.remove('active');
-  document.getElementById('order-summary').classList.remove('active');
-  
-  // عرض الشاشة المطلوبة
-  document.getElementById(screenId).classList.add('active');
+  const screens = ['table-input', 'menu', 'order-summary'];
+  screens.forEach(id => {
+    document.getElementById(id).style.display = id === screenId ? 'block' : 'none';
+  });
 }
 
 // عند إدخال رقم الطاولة
@@ -136,11 +133,12 @@ function updateCurrentOrder(itemId, quantity) {
     
     // البحث عن الصنف في الطلب الحالي
     const existingItemIndex = currentOrder.items.findIndex(item => item.id === itemId);
+    const itemNote = document.getElementById(`note-${itemId}`).value;
     
     if (existingItemIndex >= 0) {
       // تحديث الصنف الموجود
       currentOrder.items[existingItemIndex].qty = quantity;
-      currentOrder.items[existingItemIndex].note = document.getElementById(`note-${itemId}`).value;
+      currentOrder.items[existingItemIndex].note = itemNote;
     } else {
       // إضافة صنف جديد
       currentOrder.items.push({
@@ -148,7 +146,7 @@ function updateCurrentOrder(itemId, quantity) {
         name: menuItem.name,
         price: parseFloat(menuItem.price),
         qty: quantity,
-        note: document.getElementById(`note-${itemId}`).value
+        note: itemNote
       });
     }
   });
@@ -170,7 +168,12 @@ function submitOrder() {
   // إعداد بيانات الطلب
   const orderData = {
     table: currentTable,
-    items: currentOrder.items,
+    items: currentOrder.items.map(item => ({
+      name: item.name,
+      price: item.price,
+      qty: item.qty,
+      note: item.note
+    })),
     status: "pending",
     timestamp: firebase.database.ServerValue.TIMESTAMP
   };
